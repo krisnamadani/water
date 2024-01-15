@@ -15,7 +15,7 @@ class UserController extends Controller
     {
         $request->validate([
             'email' => 'required|email',
-            'password' => ['required'],
+            'password' => 'required',
         ]);
 
         $credentials = $request->only('email', 'password');
@@ -25,6 +25,30 @@ class UserController extends Controller
         }
 
         return redirect()->route('login')->with('error', 'Email or password is incorrect');
+    }
+
+    public function register()
+    {
+        return view('pages.register');
+    }
+
+    public function postRegister(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required',
+        ]);
+
+        $user = new \App\Models\User;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = \bcrypt($request->password);
+        $user->save();
+
+        auth()->login($user);
+
+        return redirect()->route('dashboard');
     }
 
     public function logout()

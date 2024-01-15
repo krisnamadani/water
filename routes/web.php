@@ -23,6 +23,9 @@ Route::get('/', function () {
 Route::get('/login', 'App\Http\Controllers\UserController@login')->name('login');
 Route::post('/login/post', 'App\Http\Controllers\UserController@postLogin')->name('login.post');
 
+Route::get('/register', 'App\Http\Controllers\UserController@register')->name('register');
+Route::post('/register/post', 'App\Http\Controllers\UserController@postRegister')->name('register.post');
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/logout', 'App\Http\Controllers\UserController@logout')->name('logout');
 
