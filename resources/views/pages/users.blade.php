@@ -36,19 +36,19 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="{{ route('users.store') }}" id="addUserForm">
+        <form action="{{ route('user.store') }}" id="addUserForm">
           @csrf
           <div class="mb-3">
             <label for="name" class="form-label">Name</label>
-            <input type="name" class="form-control" id="name" name="name">
+            <input type="name" class="form-control" name="name">
           </div>
           <div class="mb-3">
             <label for="email" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="email" name="email">
+            <input type="email" class="form-control" name="email">
           </div>
           <div class="mb-3">
             <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password" name="password">
+            <input type="password" class="form-control" name="password">
           </div>
         </form>
       </div>
@@ -68,21 +68,21 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="{{ route('users.update') }}" id="editUserForm">
+        <form action="{{ route('user.update') }}" id="editUserForm">
           @csrf
           @method('PUT')
-          <input type="hidden" id="edit_id" name="edit_id">
+          <input type="hidden" name="id">
           <div class="mb-3">
-            <label for="edit_name" class="form-label">Name</label>
-            <input type="text" class="form-control" id="edit_name" name="edit_name">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" name="name">
           </div>
           <div class="mb-3">
-            <label for="edit_email" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="edit_email" name="edit_email">
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" class="form-control" name="email">
           </div>
           <div class="mb-3">
-            <label for="edit_password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="edit_password" name="edit_password">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" name="password">
             <div id="passwordHelp" class="form-text">Leave blank if you don't want to change your password.</div>
           </div>
         </form>
@@ -186,14 +186,14 @@ $(document).ready(function() {
   });
 });
 
-function editUser(id) {
+function edit(id) {
   $.ajax({
-    url: "{{ route('users.edit', ':id') }}".replace(':id', id),
+    url: "{{ route('user.edit', ':id') }}".replace(':id', id),
     type: 'GET',
     success: function(response) {
-      $('#edit_id').val(response.user.id);
-      $('#edit_name').val(response.user.name);
-      $('#edit_email').val(response.user.email);
+      $('#editUserForm input[name="id"]').val(response.user.id);
+      $('#editUserForm input[name="name"]').val(response.user.name);
+      $('#editUserForm input[name="email"]').val(response.user.email);
       $('#editUserModal').modal('show');
     },
     error: function(error) {
@@ -206,7 +206,7 @@ function editUser(id) {
   });
 }
 
-function deleteUser(id) {
+function destroy(id) {
   Swal.fire({
     title: 'Are you sure?',
     text: "You won't be able to revert this!",
@@ -218,7 +218,7 @@ function deleteUser(id) {
   }).then((result) => {
     if (result.isConfirmed) {
       $.ajax({
-        url: "{{ route('users.delete', ':id') }}".replace(':id', id),
+        url: "{{ route('user.destroy', ':id') }}".replace(':id', id),
         type: 'DELETE',
         data: {
           "_token": "{{ csrf_token() }}"

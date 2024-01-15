@@ -24,6 +24,8 @@ Route::get('/login', 'App\Http\Controllers\UserController@login')->name('login')
 Route::post('/login/post', 'App\Http\Controllers\UserController@postLogin')->name('login.post');
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/logout', 'App\Http\Controllers\UserController@logout')->name('logout');
+
     Route::get('/dashboard', 'App\Http\Controllers\DashboardController@index')->name('dashboard');
 
     Route::get('/profile', 'App\Http\Controllers\UserController@profile')->name('profile');
@@ -31,11 +33,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/profile/save', 'App\Http\Controllers\UserController@saveProfile')->name('profile.save');
 
     Route::get('/users', 'App\Http\Controllers\UserController@index')->name('users');
-    Route::get('/users/get', 'App\Http\Controllers\UserController@getUsers')->name('users.get');
-    Route::post('/users/store', 'App\Http\Controllers\UserController@storeUsers')->name('users.store');
-    Route::get('/users/{id}/edit', 'App\Http\Controllers\UserController@editUsers')->name('users.edit');
-    Route::put('/users/update', 'App\Http\Controllers\UserController@updateUsers')->name('users.update');
-    Route::delete('/users/{id}/delete', 'App\Http\Controllers\UserController@deleteUsers')->name('users.delete');
-
-    Route::get('/logout', 'App\Http\Controllers\UserController@logout')->name('logout');
+    Route::get('/users/get', 'App\Http\Controllers\UserController@get')->name('users.get');
+    Route::post('/user/store', 'App\Http\Controllers\UserController@store')->name('user.store');
+    Route::get('/user/{id}/edit', 'App\Http\Controllers\UserController@edit')->name('user.edit');
+    Route::put('/user/update', 'App\Http\Controllers\UserController@update')->name('user.update');
+    Route::delete('/user/{id}/destroy', 'App\Http\Controllers\UserController@destroy')->name('user.destroy');
 });

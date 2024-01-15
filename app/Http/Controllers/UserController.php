@@ -81,24 +81,24 @@ class UserController extends Controller
         return view('pages.users');
     }
 
-    public function getUsers()
+    public function get()
     {
         $users = \App\Models\User::all();
 
         return \Yajra\DataTables\DataTables::of($users)
             ->addIndexColumn()
-            ->addColumn('action', function ($user) {
-                return '<button class="btn btn-sm btn-primary" onclick="editUser(' . $user->id . ')">Edit</button>
-                <button class="btn btn-sm btn-danger" onclick="deleteUser(' . $user->id . ')">Delete</button>';
-            })
             ->editColumn('created_at', function ($user) {
                 return $user->created_at->format('d M Y');
+            })
+            ->addColumn('action', function ($user) {
+                return '<button class="btn btn-sm btn-primary" onclick="edit(' . $user->id . ')">Edit</button>
+                <button class="btn btn-sm btn-danger" onclick="destroy(' . $user->id . ')">Delete</button>';
             })
             ->rawColumns(['action'])
             ->make(true);
     }
 
-    public function storeUsers(Request $request)
+    public function store(Request $request)
     {
         $request->validate([
             'name' => 'required',
@@ -118,7 +118,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function editUsers($id)
+    public function edit($id)
     {
         $user = \App\Models\User::find($id);
 
@@ -128,18 +128,18 @@ class UserController extends Controller
         ]);
     }
 
-    public function updateUsers(Request $request)
+    public function update(Request $request)
     {
         $request->validate([
-            'edit_name' => 'required',
-            'edit_email' => 'required|unique:users,email,' . $request->edit_id . '|email',
+            'name' => 'required',
+            'email' => 'required|unique:users,email,' . $request->id . '|email',
         ]);
 
-        $user = \App\Models\User::find($request->edit_id);
-        $user->name = $request->edit_name;
-        $user->email = $request->edit_email;
-        if ($request->edit_password) {
-            $user->password = \bcrypt($request->edit_password);
+        $user = \App\Models\User::find($request->id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        if ($request->password) {
+            $user->password = \bcrypt($request->password);
         }
         $user->save();
 
@@ -149,7 +149,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function deleteUsers($id)
+    public function destroy($id)
     {
         $user = \App\Models\User::find($id);
         $user->delete();
