@@ -35,6 +35,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/users/store', 'App\Http\Controllers\UserController@storeUsers')->name('users.store');
     Route::get('/users/{id}/edit', 'App\Http\Controllers\UserController@editUsers')->name('users.edit');
     Route::put('/users/update', 'App\Http\Controllers\UserController@updateUsers')->name('users.update');
+    Route::delete('/users/{id}/delete', 'App\Http\Controllers\UserController@deleteUsers')->name('users.delete');
 
     Route::get('/logout', 'App\Http\Controllers\UserController@logout')->name('logout');
 });

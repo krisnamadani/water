@@ -99,8 +99,10 @@
 
 @section('script')
 <script type="text/javascript">
+let users = null;
+
 $(document).ready(function() {
-  let users = $('#users').DataTable({
+  users = $('#users').DataTable({
     processing: true,
     serverSide: true,
     ajax: "{{ route('users.get') }}",
@@ -199,6 +201,43 @@ function editUser(id) {
         icon: 'error',
         title: 'Error',
         text: error.responseJSON.message
+      });
+    }
+  });
+}
+
+function deleteUser(id) {
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#6c757d',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        url: "{{ route('users.delete', ':id') }}".replace(':id', id),
+        type: 'DELETE',
+        data: {
+          "_token": "{{ csrf_token() }}"
+        },
+        success: function(response) {
+          users.draw();
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: response.message
+          });
+        },
+        error: function(error) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: error.responseJSON.message
+          });
+        }
       });
     }
   });

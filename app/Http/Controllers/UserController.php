@@ -148,4 +148,15 @@ class UserController extends Controller
             'message' => 'User updated successfully'
         ]);
     }
+
+    public function deleteUsers($id)
+    {
+        $user = \App\Models\User::find($id);
+        $user->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'User deleted successfully'
+        ]);
+    }
 }
