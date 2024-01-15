@@ -88,7 +88,8 @@ class UserController extends Controller
         return \Yajra\DataTables\DataTables::of($users)
             ->addIndexColumn()
             ->addColumn('action', function ($user) {
-                return '<a href="#" class="btn btn-sm btn-primary edit" data-id="' . $user->id . '">Edit</a> <a href="#" class="btn btn-sm btn-danger delete" data-id="' . $user->id . '">Delete</a>';
+                return '<button class="btn btn-sm btn-primary" onclick="editUser(' . $user->id . ')">Edit</button>
+                <button class="btn btn-sm btn-danger" onclick="deleteUser(' . $user->id . ')">Delete</button>';
             })
             ->editColumn('created_at', function ($user) {
                 return $user->created_at->format('d M Y');
@@ -114,6 +115,37 @@ class UserController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'User created successfully'
+        ]);
+    }
+
+    public function editUsers($id)
+    {
+        $user = \App\Models\User::find($id);
+
+        return response()->json([
+            'status' => 'success',
+            'user' => $user
+        ]);
+    }
+
+    public function updateUsers(Request $request)
+    {
+        $request->validate([
+            'edit_name' => 'required',
+            'edit_email' => 'required|unique:users,email,' . $request->edit_id . '|email',
+        ]);
+
+        $user = \App\Models\User::find($request->edit_id);
+        $user->name = $request->edit_name;
+        $user->email = $request->edit_email;
+        if ($request->edit_password) {
+            $user->password = \bcrypt($request->edit_password);
+        }
+        $user->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'User updated successfully'
         ]);
     }
 }
