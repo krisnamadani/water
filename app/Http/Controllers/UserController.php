@@ -27,6 +27,12 @@ class UserController extends Controller
         return redirect()->route('login')->with('error', 'Email or password is incorrect');
     }
 
+    public function logout()
+    {
+        auth()->logout();
+        return redirect()->route('login');
+    }
+
     public function profile()
     {
         $id = auth()->user()->id;
@@ -85,9 +91,23 @@ class UserController extends Controller
             ->make(true);
     }
 
-    public function logout()
+    public function storeUsers(Request $request)
     {
-        auth()->logout();
-        return redirect()->route('login');
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|unique:users|email',
+            'password' => 'required'
+        ]);
+
+        $user = new \App\Models\User;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = \bcrypt('123456');
+        $user->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'User created successfully'
+        ]);
     }
 }

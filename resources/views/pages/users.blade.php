@@ -9,7 +9,7 @@
 <div class="card">
   <div class="card-body">
     <h5 class="card-title fw-semibold mb-4">Users</h5>
-    <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#addUserModal">
+    <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#addUserModal" id="addUserButton">
       Add User
     </button>
     <table id="users" class="table table-striped table-bordered">
@@ -19,6 +19,7 @@
           <th>Name</th>
           <th>Email</th>
           <th>Created At</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
@@ -35,7 +36,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="{{ route('profile.save') }}" id="profile">
+        <form action="{{ route('users.store') }}" id="addUserForm">
           @csrf
           <div class="mb-3">
             <label for="name" class="form-label">Name</label>
@@ -48,13 +49,12 @@
           <div class="mb-3">
             <label for="password" class="form-label">Password</label>
             <input type="password" class="form-control" id="password" name="password">
-            <div id="passwordHelp" class="form-text">Leave blank if you don't want to change your password.</div>
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-primary" id="addUserSubmit">Submit</button>
       </div>
     </div>
   </div>
@@ -72,8 +72,46 @@
         {data: 'DT_RowIndex', name: 'DT_RowIndex'},
         {data: 'name', name: 'name'},
         {data: 'email', name: 'email'},
-        {data: 'created_at', name: 'created_at'}
+        {data: 'created_at', name: 'created_at'},
+        {data: 'action', name: 'action', orderable: false, searchable: false}
       ]
+    });
+
+    $('#addUserButton').click(function() {
+      $('#addUserForm').trigger('reset');
+    });
+
+    $('#addUserSubmit').click(function() {
+      $('#addUserForm').submit();
+    });
+
+    $('#addUserForm').submit(function(e) {
+      e.preventDefault();
+      var form = $(this);
+      var url = form.attr('action');
+      var data = form.serialize();
+      $.ajax({
+        url: url,
+        type: 'POST',
+        data: data,
+        success: function(response) {
+          $('#addUserModal').modal('hide');
+          $('#addUserForm').trigger('reset');
+          users.draw();
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: response.message
+          });
+        },
+        error: function(error) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: error.responseJSON.message
+          });
+        }
+      });
     });
   });
 </script>

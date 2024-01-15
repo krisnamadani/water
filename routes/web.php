@@ -32,6 +32,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/users', 'App\Http\Controllers\UserController@index')->name('users');
     Route::get('/users/get', 'App\Http\Controllers\UserController@getUsers')->name('users.get');
+    Route::post('/users/store', 'App\Http\Controllers\UserController@storeUsers')->name('users.store');
 
     Route::get('/logout', 'App\Http\Controllers\UserController@logout')->name('logout');
 });
