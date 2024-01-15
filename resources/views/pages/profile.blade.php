@@ -45,16 +45,20 @@
         type: 'POST',
         data: data,
         success: function(response) {
-          if (response.status == 'success') {
-            Swal.fire({
-              icon: 'success',
-              title: 'Success',
-              text: response.message,
-              timer: 1500
-            });
-
-            getProfile();
-          }
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: response.message,
+            timer: 1500
+          });
+          getProfile();
+        },
+        error: function(response) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: response.responseJSON.message
+          });
         }
       });
     });

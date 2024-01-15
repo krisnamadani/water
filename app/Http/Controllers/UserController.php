@@ -55,6 +55,12 @@ class UserController extends Controller
     public function saveProfile(Request $request)
     {
         $id = auth()->user()->id;
+
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|unique:users,email,' . $id . '|email',
+        ]);
+
         $profile = \App\Models\User::find($id);
 
         $profile->name = $request->name;
