@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('waters', function (Blueprint $table) {
+        Schema::create('nics', function (Blueprint $table) {
             $table->id();
+            $table->integer('delay_time')->default(0);
+            $table->foreignId('water_source_id')->constrained();
             $table->timestamps();
         });
     }
@@ -22,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('waters');
+        Schema::dropIfExists('nics');
     }
 };
