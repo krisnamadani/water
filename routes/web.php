@@ -35,8 +35,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile/get', 'App\Http\Controllers\UserController@getProfile')->name('profile.get');
     Route::post('/profile/save', 'App\Http\Controllers\UserController@saveProfile')->name('profile.save');
 
-    Route::get('/users', 'App\Http\Controllers\UserController@index')->name('users');
-    Route::get('/users/get', 'App\Http\Controllers\UserController@get')->name('users.get');
+    Route::get('/user', 'App\Http\Controllers\UserController@index')->name('user');
+    Route::get('/user/get', 'App\Http\Controllers\UserController@get')->name('user.get');
     Route::post('/user/store', 'App\Http\Controllers\UserController@store')->name('user.store');
     Route::get('/user/{id}/edit', 'App\Http\Controllers\UserController@edit')->name('user.edit');
     Route::put('/user/update', 'App\Http\Controllers\UserController@update')->name('user.update');
