@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('water_data', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('water_source_id')->constrained();
-            $table->foreignId('water_status_id')->constrained();
+            $table->string('water_source');
             $table->double('water_ph');
             $table->double('water_temperature');
             $table->double('turbidity');
             $table->double('ambient_temperature');
             $table->double('ambient_humidity');
-            $table->double('eligibility');
+            $table->boolean('eligibility');
+            $table->string('water_status');
             $table->timestamps();
         });
     }
