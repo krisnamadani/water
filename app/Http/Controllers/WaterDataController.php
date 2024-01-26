@@ -13,7 +13,7 @@ class WaterDataController extends Controller
 
     public function get()
     {
-        $water_data = \App\Models\WaterData::orderBy('id', 'desc')->get();
+        $water_data = \App\Models\WaterData::orderBy('created_at', 'desc')->get();
 
         return \Yajra\DataTables\DataTables::of($water_data)
             ->addIndexColumn()
