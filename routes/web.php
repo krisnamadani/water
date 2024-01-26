@@ -41,4 +41,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/user/{id}/edit', 'App\Http\Controllers\UserController@edit')->name('user.edit');
     Route::put('/user/update', 'App\Http\Controllers\UserController@update')->name('user.update');
     Route::delete('/user/{id}/destroy', 'App\Http\Controllers\UserController@destroy')->name('user.destroy');
+
+    Route::get('/water-data', 'App\Http\Controllers\WaterDataController@index')->name('water-data');
+    Route::get('/water-data/get', 'App\Http\Controllers\WaterDataController@get')->name('water-data.get');
 });
