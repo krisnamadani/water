@@ -13,5 +13,9 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@email.com',
             'password' => bcrypt('password'),
         ]);
+
+        $this->call([
+            WaterDataSeeder::class,
+        ]);
     }
 }
