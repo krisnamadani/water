@@ -8,11 +8,11 @@
 @endif
 <div class="card">
   <div class="card-body">
-    <h5 class="card-title fw-semibold mb-4">Users</h5>
+    <h5 class="card-title fw-semibold mb-4">User</h5>
     <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#addUserModal" id="addUserButton">
       Add User
     </button>
-    <table id="users" class="table table-striped table-bordered">
+    <table id="userTable" class="table table-striped table-bordered">
       <thead>
         <tr>
           <th>#</th>
@@ -94,18 +94,17 @@
     </div>
   </div>
 </div>
-
 @endsection
 
 @section('script')
 <script type="text/javascript">
-let users = null;
+let userTable = null;
 
 $(document).ready(function() {
-  users = $('#users').DataTable({
+  userTable = $('#userTable').DataTable({
     processing: true,
     serverSide: true,
-    ajax: "{{ route('users.get') }}",
+    ajax: "{{ route('user.get') }}",
     columns: [
       {data: 'DT_RowIndex', name: 'DT_RowIndex'},
       {data: 'name', name: 'name'},
@@ -135,7 +134,7 @@ $(document).ready(function() {
       success: function(response) {
         $('#addUserModal').modal('hide');
         $('#addUserForm').trigger('reset');
-        users.draw();
+        userTable.draw();
         Swal.fire({
           icon: 'success',
           title: 'Success',
@@ -168,7 +167,7 @@ $(document).ready(function() {
       success: function(response) {
         $('#editUserModal').modal('hide');
         $('#editUserForm').trigger('reset');
-        users.draw();
+        userTable.draw();
         Swal.fire({
           icon: 'success',
           title: 'Success',
@@ -224,7 +223,7 @@ function destroy(id) {
           "_token": "{{ csrf_token() }}"
         },
         success: function(response) {
-          users.draw();
+          userTable.draw();
           Swal.fire({
             icon: 'success',
             title: 'Success',
