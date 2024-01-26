@@ -10,8 +10,13 @@ class WaterData extends Model
     use HasFactory;
 
     protected $fillable = [
-        'water_source_id',
-        'water_status_id',
-        'nic_id',
+        'water_source',
+        'water_ph',
+        'water_temperature',
+        'turbidity',
+        'ambient_temperature',
+        'ambient_humidity',
+        'eligibility',
+        'water_status',
     ];
 }
