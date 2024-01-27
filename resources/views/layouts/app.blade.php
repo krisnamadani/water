@@ -42,11 +42,11 @@
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="{{ route('users') }}" aria-expanded="false">
+              <a class="sidebar-link" href="{{ route('user') }}" aria-expanded="false">
                 <span>
                   <i class="ti ti-user"></i>
                 </span>
-                <span class="hide-menu">Users</span>
+                <span class="hide-menu">User</span>
               </a>
             </li>
             <li class="sidebar-item">
@@ -107,6 +107,8 @@
   <script src="{{ asset('assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
   <script src="{{ asset('assets/js/sidebarmenu.js') }}"></script>
   <script src="{{ asset('assets/js/app.min.js') }}"></script>
+  <script src="{{ asset('assets/libs/apexcharts/dist/apexcharts.min.js') }}"></script>
+  <script src="{{ asset('assets/libs/simplebar/dist/simplebar.js') }}"></script>
   <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
   <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
